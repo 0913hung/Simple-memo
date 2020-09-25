@@ -21,9 +21,9 @@ class Example(tk.Frame):
         self.create()
 
     def create(self):
-        print(os.path.exists("memo_content"))
+        print(os.path.exists("memo_data"))
         try:
-            with open("memo_content", "r") as data:            
+            with open("memo_data", "r") as data:            
                 data = json.load(data)
                 if not len(data)==0:
                     for i in data:
@@ -31,8 +31,8 @@ class Example(tk.Frame):
                 else:
                     raise Exception()
         except:
-            if not os.path.exists("memo_content"):
-                with open("memo_content", "w"):pass
+            if not os.path.exists("memo_data"):
+                with open("memo_data", "w"):pass
             self.new_blank_window()
 
     def new_window(self, value):
@@ -53,6 +53,7 @@ class Example(tk.Frame):
         memo.pack(fill="both", expand=True)
         memo.insert(tk.END, value['data'])
         memo.bind("<B3-Motion>", lambda event, window=window: self.dragwin(event, window))
+        memo.bind("<Control-c>", self.save)
 
         window.bind("<Enter>", lambda event, button_frame=button_frame: self.show(event, button_frame))
         window.bind("<Leave>", lambda event, button_frame=button_frame, window=window: self.hide(event, button_frame, window))
@@ -87,11 +88,15 @@ class Example(tk.Frame):
         grip.lift(memo)
         grip.bind("<B1-Motion>", lambda event, window=window: self.on_motion(event, window))
 
-    def delete(self, memo):
+    def delete(self, window):
         message = tk.messagebox.askquestion('Delete', 'Confirm delete', icon='warning')
         if message == 'yes':
-            memo.destroy()
-            self.save()
+            window.destroy()
+            self.win_list.remove(window)
+            if len(self.win_list) ==0:
+                root.destroy()
+            else:
+                self.save()
         else:
             return
 
@@ -125,7 +130,7 @@ class Example(tk.Frame):
 
     def save(self):
         values = []
-        with open("memo_content", "w") as data:
+        with open("memo_data", "w") as data:
             for i, j in zip(self.memo_list, self.win_list):
                 value = i.get("1.0", "end")
                 if value and value != "\n":
@@ -150,12 +155,11 @@ class Example(tk.Frame):
         self._offsety = event.y
 
 USER_NAME = getpass.getuser()
-def add_to_startup(file_path=""):
-    if file_path == "":
-        file_path = os.path.dirname(os.path.realpath(__file__))
+def add_to_startup():
+    file_path = r'C:\Users\%s\desktop' % USER_NAME
     bat_path = r'C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup' % USER_NAME
-    with open(bat_path + '\\' + "open.bat", "w+") as bat_file:
-        bat_file.write(r'start "" %s' % file_path)
+    with open(bat_path + '\\' + "memo.bat", "w+") as bat_file:
+        bat_file.write(r'start "" %s\memo.exe' % file_path)
 
 if __name__ == "__main__":
     add_to_startup()
