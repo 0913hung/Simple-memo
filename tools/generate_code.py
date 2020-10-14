@@ -3,6 +3,7 @@ from photo import *
 from PIL import Image
 from io import BytesIO
 
+# Convert a list of file to string format
 
 with open("del.png", "rb") as imageFile:
     code_delete = base64.b64encode(imageFile.read())

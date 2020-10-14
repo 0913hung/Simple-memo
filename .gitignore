@@ -1,0 +1,10 @@
+.idea
+backup
+__pycache__
+backup
+build
+dist
+memo
+venv
+memo.spec
+memo_data
