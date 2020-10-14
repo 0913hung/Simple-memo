@@ -2,6 +2,7 @@
 A simple memo app in Python for windows.
 Data will store at the root of D: or desktop 
 
+![screen shot](screenshot.png)
 
 resize.py
   resize png file use to the button image
