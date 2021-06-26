@@ -1,12 +1,12 @@
 # Simple-memo
-A simple memo app in Python for windows.
-Data will store at the root of D: or desktop 
-It will automatically start when start up
+A lightweight memo app for windows. Build with Python
 
-![screen shot](screenshot.png)
+* No icon on bottom taskbar
+* Automatically run at start up
+* Adjustable font size
+* Dragable
+* Resizable
 
-some tools are included in the tools folder
-1. resize.py: resize png file use to the button image  
-1. generate_code.py: Convert png file to base64 string
-  
+![screen shot](preview.png)
+
 
